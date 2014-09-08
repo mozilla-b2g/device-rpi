@@ -257,6 +257,12 @@ on boot
     hostname localhost
     domainname localdomain
 
+
+    # TODO: teach FFOS/gonk how to configure this interface
+    exec /system/bin/netcfg eth0 dhcp
+
+
+
 # set RLIMIT_NICE to allow priorities from 19 to -20
     setrlimit 13 40 40
 
@@ -329,9 +335,6 @@ on boot
 
     class_start core
     class_start main
-
-    # TODO: teach FFOS/gonk how to configure this interface
-    exec /system/bin/netcfg eth0 dhcp
 
 
 on nonencrypted
@@ -407,7 +410,7 @@ service servicemanager /system/bin/servicemanager
     critical
     onrestart restart media
 #    onrestart restart surfaceflinger
-    onrestart restart drm
+#    onrestart restart drm
 
 service vold /system/bin/vold
     class core
@@ -435,10 +438,10 @@ service debuggerd /system/bin/debuggerd
 #    user system
 #    group graphics
 
-service drm /system/bin/drmserver
-    class main
-    user drm
-    group drm system inet drmrpc sdcard_r
+#service drm /system/bin/drmserver
+#    class main
+#    user drm
+#    group drm system inet drmrpc sdcard_r
 
 service media /system/bin/mediaserver
     class main
