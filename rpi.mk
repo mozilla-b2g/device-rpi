@@ -4,7 +4,8 @@ BOARDDIR := device/rpi/rpi
 PRODUCT_COPY_FILES := \
 	brcm_usrlib/dag/vmcsx/egl.cfg:system/lib/egl/egl.cfg \
 	$(BOARDDIR)/init.rc:root/init.rc \
-	$(BOARDDIR)/vold.fstab:system/etc/vold.fstab
+	$(BOARDDIR)/vold.fstab:system/etc/vold.fstab \
+	$(BOARDDIR)/bootanimation.zip:system/media/bootanimation.zip
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.ril.hsxpa=1 \

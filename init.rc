@@ -51,6 +51,11 @@ loglevel 8
     mkdir /cache 0771 system cache
     mkdir /config 0500 root root
 
+
+    # TODO/XXX for kernel dev
+    mkdir /boot 0700 root root
+
+
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
 
@@ -119,9 +124,17 @@ on fs
     mount ext4 /dev/block/mmcblk0p3 /data nosuid nodev
     mount ext4 /dev/block/mmcblk0p4 /cache nosuid nodev
 
+
+    # TODO/XXX for kernel dev
+    mount vfat /dev/block/mmcblk0p1 /boot
+
+
 on post-fs
     # once everything is setup, no need to modify /
-    mount rootfs rootfs / ro remount
+    #
+    # TODO/cjones: TESTING ONLY
+    #
+#    mount rootfs rootfs / ro remount
 
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
