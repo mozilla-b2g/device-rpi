@@ -1,22 +1,77 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-PRODUCT_OUT="out/target/product/rpi"
+PRODUCT_OUT="out/target/product/$DEVICE"
 
-function error { msg="$@";
-    echo $msg >&2
+function prepare_device_update {
+    echo run_adb root &&
+    echo run_adb stop b2g &&
+    echo run_adb remount
+    return $?
 }
 
-function fail { msg="$@";
-    error $msg "- exiting"
-    exit 1
+function resume_device {
+    echo "Restarting B2G" &&
+    echo run_adb shell start b2g
+    return $?
 }
 
-for mnt in root system data; do
-    rsync -av --delete $PRODUCT_OUT/$mnt/ mnt/$mnt/ || fail "Couldn't sync $mnt"
-done
+function sync_partition { part=$1
+    echo ""
+    echo "Sync'ing '$part' partition to device ..."
+    echo ""
+    echo run_adb sync $part
+    return $?
+}
 
-# Sync firmware, kernel image, and VideoCore configs.
-rsync -av --delete prebuilt/ mnt/boot/
+function sync_boot {
+    echo ""
+    echo "Sync'ing boot files to device ..."
+    echo ""
+    prepare_device_update &&
+    echo run_adb shell mkdir -p /system/.boot &&
+    echo run_adb shell mount /dev/block/mmcblk0p1 /system/.boot &&
+    echo run_adb push $PRODUCT_OUT/boot /system/.boot &&
+    echo run_adb shell umount /system/.boot &&
+    echo run_adb shell rmdir /system/.boot &&
+    echo run_adb reboot
+    return $?
+}
 
-# Blow away /cache
-rm -rf cache/*
+function flash_sdcard {
+    echo ""
+    echo "Partitioning, formatting, and flashing SD card ..."
+    echo ""
+    echo "Not yet implemented."
+    return 1
+}
+
+function flash_rpi { project=$1
+    case "$project" in
+    "system"|"data")
+            prepare_device_update &&
+            sync_partition $project &&
+            resume_device
+            return $?
+            ;;
+    "boot")
+            sync_boot
+            return $?
+            ;;
+    "")
+            if $FULLFLASH; then
+                flash_sdcard
+            else
+                prepare_device_update &&
+                sync_partition "system" &&
+                echo flash_gaia &&
+                echo update_time &&
+                resume_device
+            fi
+            return $?
+            ;;
+    *)
+            echo "Sorry, unrecognized project '$project'."
+            return 1
+            ;;
+    esac
+}
