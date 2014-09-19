@@ -1,0 +1,5 @@
+gpu_mem=64
+
+# Limit resolution to 480p for now.
+hdmi_group=1
+hdmi_mode=2

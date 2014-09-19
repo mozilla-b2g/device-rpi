@@ -121,8 +121,10 @@ loglevel 8
     chmod 0644 /dev/xt_qtaguid
 
 on fs
-    mount ext4 /dev/block/mmcblk0p3 /data nosuid nodev
-    mount ext4 /dev/block/mmcblk0p4 /cache nosuid nodev
+    mount ext4 /dev/block/mmcblk0p3 /system
+    mount ext4 /dev/block/mmcblk0p3 /system ro remount
+    mount ext4 /dev/block/mmcblk0p5 /data nosuid nodev
+    mount ext4 /dev/block/mmcblk0p6 /cache nosuid nodev
 
 
     # TODO/XXX for kernel dev
