@@ -1,17 +1,17 @@
 #!/bin/bash
 
-PRODUCT_OUT="out/target/product/$DEVICE"
+export ANDROID_PRODUCT_OUT="out/target/product/$DEVICE"
 
 function prepare_device_update {
-    echo run_adb root &&
-    echo run_adb stop b2g &&
-    echo run_adb remount
+    run_adb root &&
+    run_adb shell stop b2g &&
+    run_adb remount
     return $?
 }
 
 function resume_device {
     echo "Restarting B2G" &&
-    echo run_adb shell start b2g
+    run_adb shell start b2g
     return $?
 }
 
@@ -19,7 +19,7 @@ function sync_partition { part=$1
     echo ""
     echo "Sync'ing '$part' partition to device ..."
     echo ""
-    echo run_adb sync $part
+    run_adb sync $part
     return $?
 }
 
@@ -30,7 +30,7 @@ function sync_boot {
     prepare_device_update &&
     echo run_adb shell mkdir -p /system/.boot &&
     echo run_adb shell mount /dev/block/mmcblk0p1 /system/.boot &&
-    echo run_adb push $PRODUCT_OUT/boot /system/.boot &&
+    echo run_adb push $ANDROID_PRODUCT_OUT/boot /system/.boot &&
     echo run_adb shell umount /system/.boot &&
     echo run_adb shell rmdir /system/.boot &&
     echo run_adb reboot
@@ -63,8 +63,8 @@ function flash_rpi { project=$1
             else
                 prepare_device_update &&
                 sync_partition "system" &&
-                echo flash_gaia &&
-                echo update_time &&
+                flash_gaia &&
+                update_time &&
                 resume_device
             fi
             return $?
