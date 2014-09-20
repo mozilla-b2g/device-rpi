@@ -11,7 +11,10 @@ ARCH_ARM_HAVE_VFP := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_ARCH_VARIANT_CPU := arm1176jzf-s
 
+# We have a prebuilt kernel, but it's not used in the same way as the
+# typical gonk build setup.
 TARGET_NO_KERNEL := true
+TARGET_NO_RECOVERY := true
 
 USE_OPENGL_RENDERER := true
 

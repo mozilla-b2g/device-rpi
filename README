@@ -1,0 +1,44 @@
+This directory defines the board and product configuration for b2g
+running on the Raspberry Pi.
+
+The *.bin, *.elf, and *.dat files in prebuilt/ comprise the
+proprietary firmware and bootloader files required to start up the
+Raspberry Pi.  The files are imported from the boot/ directory in
+
+https://github.com/raspberrypi/firmware
+
+(The repository is very very large, so it's not imported wholesale.)
+
+prebuilt/cmdline.txt is the b2g-specific linux startup command line.
+
+prebuilt/config.txt contains b2g-specific parameters mostly relevant
+for the Raspberry Pi's VideoCore chip.
+
+prebuilt/kernel.img is built from the linux kernel source at
+
+https://github.com/cgjones/linux
+
+on the "rpi-gonk-3.12.y" branch.  This kernel source is forked from
+the official upstream Raspberry Pi source at
+
+https://github.com/raspberrypi/linux
+
+To build the kernel, first download the Raspberry Pi toolchain from
+
+https://github.com/raspberrypi/tools
+
+Ensure that
+$tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin is in
+your $PATH.  Then configure and build the kernel with
+
+$ cd $linux
+$ make ARCH=arm bcmrpi_gonk_defconfig
+$ make ARCH=arm -j8   # or whatever -j is right for your machine
+
+The build artifact $linux/arch/arm/boot/zImage can be directly copied
+over prebuilt/kernel.img.  To update your Raspberry Pi with this new
+kernel, run
+
+$ cd $b2g
+$ ./build.sh
+$ ./flash.sh boot
