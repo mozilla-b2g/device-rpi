@@ -2,6 +2,8 @@
 
 export ANDROID_PRODUCT_OUT="out/target/product/$DEVICE"
 
+KERNEL_IMG=${KERNEL_IMG:-$DEVICE_DIR/prebuilt/kernel.img}
+
 function prepare_device_update {
     run_adb root &&
     run_adb shell stop b2g &&
@@ -9,9 +11,24 @@ function prepare_device_update {
     return $?
 }
 
+function prepare_boot_update {
+    prepare_device_update &&
+    run_adb shell mkdir -p /system/.boot &&
+    run_adb shell mount -t vfat /dev/block/mmcblk0p1 /system/.boot
+    return $?
+}
+
 function resume_device {
     echo "Restarting B2G" &&
     run_adb shell start b2g
+    return $?
+}
+
+function finish_boot_update {
+    run_adb shell umount /system/.boot &&
+    run_adb shell rmdir /system/.boot &&
+    echo "Rebooting device ..." &&
+    run_adb reboot
     return $?
 }
 
@@ -23,17 +40,19 @@ function sync_partition { part=$1
     return $?
 }
 
-function sync_boot {
+function push_boot {
     echo ""
-    echo "Sync'ing boot files to device ..."
+    echo "Pushing boot files to device ..."
     echo ""
-    prepare_device_update &&
-    echo run_adb shell mkdir -p /system/.boot &&
-    echo run_adb shell mount /dev/block/mmcblk0p1 /system/.boot &&
-    echo run_adb push $ANDROID_PRODUCT_OUT/boot /system/.boot &&
-    echo run_adb shell umount /system/.boot &&
-    echo run_adb shell rmdir /system/.boot &&
-    echo run_adb reboot
+    run_adb push $ANDROID_PRODUCT_OUT/boot /system/.boot
+    return $?
+}
+
+function push_kernel {
+    echo ""
+    echo "Pushing kernel to device ..."
+    echo ""
+    run_adb push $KERNEL_IMG /system/.boot/kernel.img
     return $?
 }
 
@@ -54,7 +73,15 @@ function flash_rpi { project=$1
             return $?
             ;;
     "boot")
-            sync_boot
+            prepare_boot_update &&
+            push_boot &&
+            finish_boot_update
+            return $?
+            ;;
+    "kernel")
+            prepare_boot_update &&
+            push_kernel &&
+            finish_boot_update
             return $?
             ;;
     "")

@@ -51,11 +51,6 @@ loglevel 8
     mkdir /cache 0771 system cache
     mkdir /config 0500 root root
 
-
-    # TODO/XXX for kernel dev
-    mkdir /boot 0700 root root
-
-
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
 
@@ -125,11 +120,6 @@ on fs
     mount ext4 /dev/block/mmcblk0p3 /system ro remount
     mount ext4 /dev/block/mmcblk0p5 /data nosuid nodev
     mount ext4 /dev/block/mmcblk0p6 /cache nosuid nodev
-
-
-    # TODO/XXX for kernel dev
-    mount vfat /dev/block/mmcblk0p1 /boot
-
 
 on post-fs
     # once everything is setup, no need to modify /
