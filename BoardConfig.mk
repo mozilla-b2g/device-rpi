@@ -28,10 +28,10 @@ BOARD_HAVE_BRCM_DAG := true
 
 GECKO_CONFIGURE_ARGS := \
 	--with-arch=armv6 \
-	--enable-debug
+	--disable-b2g-ril --disable-b2g-bt
 
-# TODO: add a way to disable RIL and BT for configure.in
-#	--disable-b2g-ril --disable-b2g-bt
+GAIA_DEVICE_TYPE := tablet
+BOARD_GAIA_MAKE_FLAGS := NOFTU=1 NO_LOCK_SCREEN=1 # GAIA_MEMORY_PROFILE=low ?
 
 # XXX work around fb driver hang when posting to VC
 BOARD_NO_PAGE_FLIPPING := true
