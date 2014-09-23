@@ -6,8 +6,9 @@ KERNEL_IMG=${KERNEL_IMG:-$DEVICE_DIR/prebuilt/kernel.img}
 
 function prepare_device_update {
     run_adb root &&
-    run_adb shell stop b2g &&
-    run_adb remount
+    run_adb shell stop b2g #&&
+    #run_adb remount
+    # TODO: above is for testing.  remount is too unreliable.
     return $?
 }
 
@@ -26,6 +27,7 @@ function resume_device {
 
 function finish_boot_update {
     run_adb shell umount /system/.boot &&
+    sleep 2 &&
     run_adb shell rmdir /system/.boot &&
     echo "Rebooting device ..." &&
     run_adb reboot

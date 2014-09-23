@@ -117,7 +117,9 @@ loglevel 8
 
 on fs
     mount ext4 /dev/block/mmcblk0p3 /system
-    mount ext4 /dev/block/mmcblk0p3 /system ro remount
+    # TODO: testing only.  Remounting /system rw in ICS-era source is just
+    # too unreliable for sane development.
+#    mount ext4 /dev/block/mmcblk0p3 /system ro remount
     mount ext4 /dev/block/mmcblk0p5 /data nosuid nodev
     mount ext4 /dev/block/mmcblk0p6 /cache nosuid nodev
 

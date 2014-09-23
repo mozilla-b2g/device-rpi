@@ -26,4 +26,12 @@ USE_CAMERA_STUB := true
 
 BOARD_HAVE_BRCM_DAG := true
 
-GECKO_CONFIGURE_ARGS := --with-arch=armv6
+GECKO_CONFIGURE_ARGS := \
+	--with-arch=armv6 \
+	--enable-debug
+
+# TODO: add a way to disable RIL and BT for configure.in
+#	--disable-b2g-ril --disable-b2g-bt
+
+# XXX work around fb driver hang when posting to VC
+BOARD_NO_PAGE_FLIPPING := true
