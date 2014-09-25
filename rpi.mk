@@ -4,7 +4,7 @@ BOARDDIR := device/rpi/rpi
 PRODUCT_COPY_FILES := \
 	brcm_usrlib/dag/vmcsx/egl.cfg:system/lib/egl/egl.cfg \
 	$(BOARDDIR)/init.rc:root/init.rc \
-	$(BOARDDIR)/vold.fstab:system/etc/vold.fstab \
+	$(BOARDDIR)/volume.cfg:system/etc/volume.cfg \
 	$(BOARDDIR)/bootanimation.zip:system/media/bootanimation.zip \
 	$(BOARDDIR)/prebuilt/bootcode.bin:boot/bootcode.bin \
 	$(BOARDDIR)/prebuilt/cmdline.txt:boot/cmdline.txt \
