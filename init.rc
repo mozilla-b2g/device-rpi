@@ -127,6 +127,7 @@ on fs
 #    mount ext4 /dev/block/mmcblk0p3 /system ro remount
     mount ext4 /dev/block/mmcblk0p5 /data nosuid nodev
     mount ext4 /dev/block/mmcblk0p6 /cache nosuid nodev
+    mount vfat /dev/block/mmcblk0p7 /mnt/sdcard nosuid nodev
 
 on post-fs
     # once everything is setup, no need to modify /
