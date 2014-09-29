@@ -1,5 +1,10 @@
 gpu_mem=64
 
+# Prevent VideoCore from registering the v3d interrupt.  Our GL stack
+# causes the interrupt to be triggered, but it sends the VC off into
+# the weeds and it stops responding to some RPCs.
+mask_gpu_interrupt0=0x400
+
 # Limit resolution to 480p for now.
 hdmi_group=1
 hdmi_mode=2
