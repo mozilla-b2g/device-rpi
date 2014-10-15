@@ -1,0 +1,3 @@
+{
+   "screen.timeout": 0
+}

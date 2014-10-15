@@ -346,6 +346,9 @@ on boot
 # Set this property so surfaceflinger is not started by system_init
     setprop system_init.startsurfaceflinger 0
 
+    chmod 0640 /dev/rfkill
+    chown root wifi /dev/rfkill
+
     class_start core
     class_start main
 
@@ -530,5 +533,10 @@ service mdnsd /system/bin/mdnsd
 
 service vtserver /system/bin/vtserver
     user root
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+    socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot

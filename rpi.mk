@@ -3,9 +3,10 @@ BOARDDIR := device/rpi/rpi
 
 PRODUCT_COPY_FILES := \
 	brcm_usrlib/dag/vmcsx/egl.cfg:system/lib/egl/egl.cfg \
+	$(BOARDDIR)/bootanimation.zip:system/media/bootanimation.zip \
 	$(BOARDDIR)/init.rc:root/init.rc \
 	$(BOARDDIR)/volume.cfg:system/etc/volume.cfg \
-	$(BOARDDIR)/bootanimation.zip:system/media/bootanimation.zip \
+	$(BOARDDIR)/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	$(BOARDDIR)/prebuilt/bootcode.bin:boot/bootcode.bin \
 	$(BOARDDIR)/prebuilt/cmdline.txt:boot/cmdline.txt \
 	$(BOARDDIR)/prebuilt/config.txt:boot/config.txt \
@@ -13,16 +14,19 @@ PRODUCT_COPY_FILES := \
 	$(BOARDDIR)/prebuilt/fixup.dat:boot/fixup.dat \
 	$(BOARDDIR)/prebuilt/fixup_x.dat:boot/fixup_x.dat \
 	$(BOARDDIR)/prebuilt/kernel.img:boot/kernel.img \
+	$(BOARDDIR)/prebuilt/8192cu.ko:system/lib/modules/8192cu.ko \
 	$(BOARDDIR)/prebuilt/start_cd.elf:boot/start_cd.elf \
 	$(BOARDDIR)/prebuilt/start.elf:boot/start.elf \
 	$(BOARDDIR)/prebuilt/start_x.elf:boot/start_x.elf
 
+PRODUCT_CHARACTERISTICS := tablet
+
+PRODUCT_PROPERTY_OVERRIDES := \
+	wifi.interface=wlan0
+
 PRODUCT_PACKAGES := \
 	audio.primary.goldfish \
 	libGLES_hgl
-
-PRODUCT_PROPERTY_OVERRIDES := \
-	ro.moz.bootanim.bgcolor=0x00539f
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 

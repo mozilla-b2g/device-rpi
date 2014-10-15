@@ -3,6 +3,7 @@
 export ANDROID_PRODUCT_OUT="out/target/product/$DEVICE"
 
 KERNEL_IMG=${KERNEL_IMG:-$DEVICE_DIR/prebuilt/kernel.img}
+KERNEL_MODULES=${KERNEL_MODULES:-$DEVICE_DIR/prebuilt/*.ko}
 
 function prepare_device_update {
     run_adb root &&
@@ -39,6 +40,14 @@ function sync_partition { part=$1
     echo "Sync'ing '$part' partition to device ..."
     echo ""
     run_adb sync $part
+    return $?
+}
+
+function push_kernel_modules {
+    echo ""
+    echo "Pushing kernel modules to device ..."
+    echo ""
+    run_adb push $KERNEL_MODULES /system/lib/modules/
     return $?
 }
 
@@ -274,12 +283,14 @@ function flash_rpi { project=$1
     "boot")
             prepare_boot_update &&
             push_boot &&
+            push_kernel_modules &&
             finish_boot_update
             return $?
             ;;
     "kernel")
             prepare_boot_update &&
             push_kernel &&
+            push_kernel_modules &&
             finish_boot_update
             return $?
             ;;
