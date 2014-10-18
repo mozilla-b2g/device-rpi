@@ -67,10 +67,7 @@ function push_kernel {
     return $?
 }
 
-function flash_sdcard {
-    echo ""
-    echo "Partitioning, formatting, and flashing SD card ..."
-    echo ""
+function detect_sd_card {
     echo "A full flash of a Raspberry Pi build works a bit differently"
     echo "than a full flash of most other devices.  You will insert an SD"
     echo "card that will be prepared with your b2g build."
@@ -109,6 +106,19 @@ function flash_sdcard {
     echo ""
     echo "  $disk"
     echo ""
+    return $disk
+}
+
+function flash_sdcard {
+    echo ""
+    echo "Partitioning, formatting, and flashing SD card ..."
+    echo ""
+    if [ "$DISK" == "" ]; then
+        detect_sd_card
+    else
+        disk="$DISK"
+    fi
+
     if [ ! -b $disk ]; then
         echo "'$disk' isn't a block device, so isn't an SD card.  Bailing."
         return 1
@@ -205,12 +215,14 @@ EOF
     echo "... finished partitioning $disk."
     echo ""
 
-    BOOT_PART=${disk}p1
-    ROOT_PART=${disk}p2
-    SYSTEM_PART=${disk}p3
-    DATA_PART=${disk}p5
-    CACHE_PART=${disk}p6
-    SDCARD_PART=${disk}p7
+    # Note: some cards name partitions as foopN, whereas others name
+    # them fooN.
+    BOOT_PART=$(ls ${disk}*1)
+    ROOT_PART=$(ls ${disk}*2)
+    SYSTEM_PART=$(ls ${disk}*3)
+    DATA_PART=$(ls ${disk}*5)
+    CACHE_PART=$(ls ${disk}*6)
+    SDCARD_PART=$(ls ${disk}*7)
 
     echo "Formatting partitions on $disk ..."
     echo ""
