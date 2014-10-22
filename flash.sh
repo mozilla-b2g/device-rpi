@@ -182,13 +182,13 @@ unit: sectors
 124928,1024000,83
 
 # (extended partition for remaining partitions)
-1150976,+,85
+1150976,6856704,85
 
 # data. 1434 MiB
-1153024,2936832,83
+1155072,2936832,83
 
 # cache. 50MiB
-4091904,102400,83
+4096000,102400,83
 
 # sdcard
 #
@@ -197,7 +197,7 @@ unit: sectors
 #
 # Expands to fill remaining free space.
 #
-4196352,+,c
+4202496,3805184,c
 EOF
     result=$?
     if [[ $result != 0 ]]; then
