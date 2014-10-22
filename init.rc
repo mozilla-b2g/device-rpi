@@ -276,6 +276,8 @@ on boot
 
     # TODO: teach FFOS/gonk how to configure this interface
     exec /system/bin/netcfg eth0 dhcp
+    setprop net.dns1 8.8.8.8
+    setprop net.dns2 8.8.4.4
 
 
 
