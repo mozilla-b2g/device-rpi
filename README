@@ -23,6 +23,13 @@ the official upstream Raspberry Pi source at
 
 https://github.com/raspberrypi/linux
 
+The fbtft_driver module is built from the source at
+
+git clone https://github.com/xobs/adafruit-rpi-fbtft.git
+
+In the default kernel config, that source needs to be cloned into
+|$linux/drivers/video/fbtft|.
+
 
 ## Build the kernel
 
