@@ -49,14 +49,16 @@ $ ./flash.sh boot
 
 ## Build a kernel with PiTFT support
 
-Follow the same instructions as above, with one addition: after
-cloning the linux repository, run
+Follow the same instructions as above, EXCEPT: checkout the
+"rpi-gonk-pitft-3.12.y" branch.
+
+And ADDITIONALLY: after checking out that branch, run
 
 $ cd $linux/drivers/video/
 $ git clone https://github.com/xobs/adafruit-rpi-fbtft.git fbtft
 
-This pulls in the "fbtft" driver that PiTFT.
+This pulls in the "fbtft" driver that PiTFT uses.
 
-And, instead of configuring with `bcmrpi_gonk_defconfig`, run
+And, INSTEAD OF configuring with `bcmrpi_gonk_defconfig`, run
 
 $ make ARCH=arm bcmrpi_gonk_pitft_defconfig
