@@ -47,8 +47,10 @@ function push_kernel_modules {
     echo ""
     echo "Pushing kernel modules to device ..."
     echo ""
-    run_adb push $KERNEL_MODULES /system/lib/modules/
-    return $?
+    for mod in $KERNEL_MODULES; do
+        run_adb push $mod /system/lib/modules/ || return $?
+    done
+    return 0
 }
 
 function push_boot {

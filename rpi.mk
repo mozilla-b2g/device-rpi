@@ -3,6 +3,7 @@ BOARDDIR := device/rpi/rpi
 
 PRODUCT_COPY_FILES := \
 	brcm_usrlib/dag/vmcsx/egl.cfg:system/lib/egl/egl.cfg \
+	$(BOARDDIR)/b2g.sh:system/bin/b2g.sh \
 	$(BOARDDIR)/bootanimation.zip:system/media/bootanimation.zip \
 	$(BOARDDIR)/init.rc:root/init.rc \
 	$(BOARDDIR)/volume.cfg:system/etc/volume.cfg \
@@ -15,6 +16,7 @@ PRODUCT_COPY_FILES := \
 	$(BOARDDIR)/prebuilt/fixup_x.dat:boot/fixup_x.dat \
 	$(BOARDDIR)/prebuilt/kernel.img:boot/kernel.img \
 	$(BOARDDIR)/prebuilt/8192cu.ko:system/lib/modules/8192cu.ko \
+	$(BOARDDIR)/prebuilt/fbtft_device.ko:system/lib/modules/fbtft_device.ko \
 	$(BOARDDIR)/prebuilt/start_cd.elf:boot/start_cd.elf \
 	$(BOARDDIR)/prebuilt/start.elf:boot/start.elf \
 	$(BOARDDIR)/prebuilt/start_x.elf:boot/start_x.elf

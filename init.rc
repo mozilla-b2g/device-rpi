@@ -561,3 +561,11 @@ service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
 service iprenew_eth0 /system/bin/dhcpcd -n
     disabled
     oneshot
+
+# TODO: restart b2g for *any* change to the fbtft property instead of
+# hardcoding it here.  This isn't so bad because users can always
+# restart b2g manually.
+on property:persist.fbtft=adafruitts
+   restart b2g
+on property:persist.fbtft=none
+   restart b2g
