@@ -143,7 +143,12 @@ function flash_sdcard {
         return 1
     fi
 
-    dd bs=1K count=1 if=$disk of=/dev/null
+    unamestr=`uname`
+    if [[ $unamestr == 'Darwin' ]]; then
+        dd bs=1k count=1 if=$disk of=/dev/null
+    else
+        dd bs=1K count=1 if=$disk of=/dev/null
+    fi
     result=$?
     if [[ $result != 0 ]]; then
         echo "Can't read $disk; are you running as superuser?"
